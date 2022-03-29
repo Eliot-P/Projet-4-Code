@@ -1,0 +1,108 @@
+S1,0,002,False,NaN
+S1,0,003,True,False
+S1,0,004,False,NaN
+S1,0,005,True,True
+S1,0,006,False,NaN
+S1,0,007,True,True
+S1,0,008,"False ",NaN
+S1,0,009,True,True
+S1,0,010,"False ",NaN
+S1,0,011,True,True
+S1bis,90,002,"False ",NaN
+S1bis,90,003,True,False
+S1bis,90,004,"False ",NaN
+S1bis,90,005,True,True
+S1bis,90,006,"False ",NaN
+S1bis,90,007,True,True
+S1bis,90,008,"False ",NaN
+S1bis,90,009,True,True
+S1bis,90,010,"False ",NaN
+S1bis,90,011,True,False
+S1bis,180,012,"False ",NaN
+S1bis,180,013,True,True
+S1bis,180,014,"False ",NaN
+S1bis,180,015,True,False
+S1bis,180,016,"False ",NaN
+S1bis,180,017,True,False
+S1bis,180,018,"False ",NaN
+S1bis,180,019,True,True
+S1bis,180,020,"False ",NaN
+S1bis,180,021,True,True
+S2,0,001,"False ",NaN
+S2,0,002,True,True
+S2,0,003,"False ",NaN
+S2,0,004,True,True
+S2,0,005,"False ",NaN
+S2,0,006,True,True
+S2,0,007,"False ",NaN
+S2,0,008,True,True
+S2,0,009,"False ",NaN
+S2,0,010,True,False
+S2,90,011,"False ",NaN
+S2,90,012,"True ",True
+S2,90,013,"False ",NaN
+S2,90,014,True,True
+S2,90,015,"False ",NaN
+S2,90,016,True,True
+S2,90,017,"False ",NaN
+S2,90,018,True,True
+S2,90,019,"False ",NaN
+S2,90,020,True,True
+S2,180,022,"False ",NaN
+S2,180,023,True,False
+S2,180,024,"False ",NaN
+S2,180,025,True,False
+S2,180,026,"False ",NaN
+S2,180,027,True,False
+S2,180,028,"False ",NaN
+S2,180,029,True,False
+S2,180,030,"False ",NaN
+S2,180,031,True,True
+S3,0,001,"True ",False
+S3,0,002,"False ",NaN
+S3,0,003,True,NaN
+S3,0,004,"False ",NaN
+S3,0,005,True,True
+S3,0,006,"False ",NaN
+S3,0,007,True,False
+S3,0,008,"False ",NaN
+S3,0,009,True,False
+S3,90,010,True,True
+S3,90,011,False,NaN
+S3,90,012,True,False
+S3,90,013,False,NaN
+S3,90,014,True,True
+S3,90,015,False,NaN
+S3,90,016,True,False
+S3bis,90,001,False,NaN
+S3bis,90,002,True,False
+S3bis,90,003,False,NaN
+S3bis,180,004,True,True
+S3bis,180,005,"False ",NaN
+S3bis,180,006,True,True
+S3bis,180,007,"False ",NaN
+S3bis,180,008,True,False
+S3bis,180,009,"False ",NaN
+S3bis,180,010,True,True
+S3bis,180,011,"False ",NaN
+S3bis,180,012,True,True
+S4,0,001,True,False
+S4,0,002,"False ",NaN
+S4,0,003,True,False
+S4,0,004,"False ",NaN
+S4,0,005,True,True
+S4,0,006,"False ",NaN
+S4,0,007,True,False
+S4,0,008,False,NaN
+S4,0,009,True,True
+S4,0,010,False,NaN
+S4,180,011,True,False
+S4,180,012,False,NaN
+S4,180,013,True,True
+S4,180,014,False,NaN
+S4,180,015,True,True
+S4,180,016,False,NaN
+S4,180,017,True,False
+S4,180,019,False,NaN
+S4,180,020,True,True
+S4,180,021,False,NaN
