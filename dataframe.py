@@ -10,7 +10,6 @@ import Code.signal_processing_toolbox as sp
 
 df = pd.read_csv("result.csv") 
 df.columns = ['sujet','angle','numéro','séquence','réussite']
-C = coda.import_data("Data/GBIO_2022_Group_2_S2_20220007_009.TXT")
 sujet_data = df['sujet']
 numéro_data = df['numéro']
 liste_data = []
