@@ -28,7 +28,7 @@ def find_angles_rework(xi,yi):
     return theta_refined
 
 
-C = coda.import_data("Data/GBIO_2022_Group_2_S2_20220007_006.TXT")
+C = coda.import_data("Data/GBIO_2022_Group_2_S2_20220007_005.TXT")
 x = sp.filter_signal(C["Marker5_X"])
 y = sp.filter_signal(C["Marker5_Y"])
 z = sp.filter_signal(C["Marker5_Z"])
@@ -41,34 +41,24 @@ vy = sp.derive(y,200)
 def separatorVY(x,y,vx,vy,t):
     vy_sample = vy[50:400]
     arg1 = np.argmin(vy_sample)
-    sample_x = x[arg1-50:arg1+50]
-    sample_y = y[arg1-50:arg1+50]
-    print(arg1)
+    sample_x = x[arg1:arg1+50]
+    sample_y = y[arg1:arg1+50]
     angles = np.zeros_like(sample_x)
     for j in range (len(sample_x)) : 
         angles[j] = find_angles_rework(sample_x[j:j+20],sample_y[j:j+20])
-    g = np.argmax(angles)
-    print(g + arg1 - 100)
-    return g + arg1 
+    g = np.argmax(angles) + 10
+    return g + arg1 + 50
 
 def separatorVX(x,y,vx,vy,t):
-    vx_sample = vx[50:400]
-    arg1 = np.argmin(vx_sample)
-    sample_x = x[arg1-50:arg1+50]
-    sample_y = y[arg1-50:arg1+50]
-    print(arg1)
+    vx_sample = vx[100:400]
+    arg1 = np.argmax(vx_sample)
+    sample_x = x[arg1-50:arg1+200]
+    sample_y = y[arg1-50:arg1+200]
     angles = np.zeros_like(sample_x)
     for j in range (len(sample_x)) : 
         angles[j] = find_angles_rework(sample_x[j:j+20],sample_y[j:j+20])
-    g = np.argmax(angles)
-    print(g + arg1 - 100)
-    return g + arg1 
-
-median = np.median(y[1000:5000])
-max = np.argmax(y)
-min = np.argmin(y)
-ran = (max - min)
-dist = y[max] - median
+    g = np.argmax(angles) + 10
+    return g + arg1 + 50
 
 
 fY = separatorVY(x,y,vx,vy,t)
