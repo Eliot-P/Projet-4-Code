@@ -1,7 +1,3 @@
-
-
-from statistics import mean
-from turtle import xcor
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -152,7 +148,7 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities):
     plt.grid()
     plt.title('square quality')
     plt.bar(np.arange(7),qualities,color=colors)
-    plt.axhline(mean(qualities))
+    plt.axhline(np.mean(qualities))
     
     plt.show()
 
