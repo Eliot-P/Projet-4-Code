@@ -1,4 +1,4 @@
-from cmath import pi
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -19,6 +19,46 @@ def squarequality(x1, y1, x2, y2, x3, y3, x4, y4):
     quality = np.std(list)
     
     return quality
+
+def squarequalitylong(x1, y1, x2, y2, x3, y3, x4, y4):
+    
+    long1 = np.sqrt((x2 - x1)**2 + (y2 - y1)**2)
+    long2 = np.sqrt((x3 - x2)**2 + (y3 - y2)**2)
+    long3 = np.sqrt((x4 - x3)**2 + (y4 - y3)**2)
+    long4 = np.sqrt((x1 - x4)**2 + (y1 - y4)**2)
+    list = [long1, long2, long3, long4]
+    qualite = np.std(list)
+    
+    return qualite
+
+def squarequalityangle(x1, y1, x2, y2, x3, y3, x4, y4):
+    
+    angle1 = np.arccos(((x2 - x1) * (x3 - x2) + (y2 - y1) * (y3 - y2)) / (np.sqrt((x2 - x1)**2 + (y2 - y1)**2) * math.sqrt((x3 - x2)**2 + (y3 - y2)**2)))
+    angle2 = np.arccos(((x3 - x2) * (x4 - x3) + (y3 - y2) * (y4 - y3)) / (np.sqrt((x3 - x2)**2 + (y3 - y2)**2) * math.sqrt((x4 - x3)**2 + (y4 - y3)**2)))
+    angle3 = np.arccos(((x4 - x3) * (x1 - x4) + (y4 - y3) * (y1 - y4)) / (np.sqrt((x4 - x3)**2 + (y4 - y3)**2) * math.sqrt((x1 - x4)**2 + (y1 - y4)**2)))
+    angle4 = np.arccos(((x1 - x4) * (x2 - x1) + (y1 - y4) * (y2 - y1)) / (np.sqrt((x1 - x4)**2 + (y1 - y4)**2) * math.sqrt((x2 - x1)**2 + (y2 - y1)**2)))
+    
+    list = [np.degrees(angle1), np.degrees(angle2), np.degrees(angle3), np.degrees(angle4)]
+    
+    qualite = np.std(list)
+    
+    return qualite
+
+def score(x1, y1, x2, y2, x3, y3, x4, y4):
+    lon = squarequalitylong(x1, y1, x2, y2, x3, y3, x4, y4)
+    angle = squarequalityangle(x1, y1, x2, y2, x3, y3, x4, y4)
+    if((lon == 0)  and (angle==0)):
+        return 5
+    elif((lon <0.5 ) and (angle<0.5)):
+        return  4
+    elif((lon <1 ) and (angle<1)):
+        return  3
+    elif((lon <3 ) and (angle<3)):
+        return 2
+    else:
+        return 1
+
+
 
 def find_angles_rework(xi,yi):
     m1 = np.polyfit(xi[:10],yi[:10],1)
@@ -97,4 +137,17 @@ plt.plot(x,y)
 plt.scatter(x[fX],y[fX],color='red')
 plt.scatter(x[fY],y[fY],color='green')
 
+plt.show()
+
+time_stamps = np.linspace(0,5600,29)
+time_stamps+=fY
+time_stamps = np.int_(time_stamps)
+
+for i in range(7):
+    i*=4
+    plt.scatter(x[time_stamps[0+i:4+i]],y[time_stamps[0+i:4+i]])
+    plt.plot(x[time_stamps[0+i:1+1+i]],y[time_stamps[0+i:1+1+i]])
+    plt.plot(x[time_stamps[1+i:1+2+i]],y[time_stamps[1+i:1+2+i]])
+    plt.plot(x[time_stamps[2+i:1+3+i]],y[time_stamps[2+i:1+3+i]])
+    plt.plot(x[time_stamps[3+i:1+4+i]],y[time_stamps[3+i:1+4+i]])
 plt.show()
