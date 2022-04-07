@@ -1,7 +1,8 @@
+from matplotlib import gridspec
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
 import numpy as np
+import warnings
 
 import Code.coda_toolbox as coda
 import Code.signal_processing_toolbox as sp
@@ -39,8 +40,14 @@ def score(x,y):
 
 
 def find_angles_rework(xi,yi):
-    m1 = np.polyfit(xi[:10],yi[:10],1)
-    m2 = np.polyfit(xi[-10:],yi[-10:],1)
+    try:
+        m1 = np.polyfit(xi[:10],yi[:10],1)
+    except np.linalg.LinAlgError:
+        return 0
+    try:
+        m2 = np.polyfit(xi[-10:],yi[-10:],1)
+    except np.linalg.LinAlgError:
+        return 0
     theta = np.arctan((m1[0] - m2[0])/(1 + m1[0]*m2[0]))
     theta_refined = abs(theta)
     return theta_refined
@@ -83,74 +90,104 @@ def quality_finder(time_stamps,x,y):
         qualities[j] = score(x_coord,y_coord)
     return qualities
 
-def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities):
+def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
     
+    mean_quality = np.mean(qualities)
+    median_quality = np.median(qualities)
+    std_dev = np.std(qualities)
+    
+    title = " Sujet : {} \n angle : {}° \n take : {} \n memorization task : {} \n success : {} \n square quality : \n   mean : {:.2f}\n   std : {:.2f}\n   median : {:.2f}"
+    title = title.format(seq["subject"],seq["angle"],seq["number"],seq["memorization_task"],seq["success"],mean_quality,std_dev,median_quality)
+    fig = plt.figure(figsize=[13,8])
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#e377c2', '#bcbd22']
-    plt.subplot(4,2,1)
-    plt.title("x coordinates")
-    for i in range(7):
-        plt.axvspan(t[time_stamps[i*4]],t[time_stamps[i*4+4]],alpha=0.5,color=colors[i])
-    plt.plot(t,x)
-    plt.scatter(t[fX],x[fX],color='red')
-    plt.scatter(t[fY],x[fY],color='green')
-    plt.grid()
     
-    plt.subplot(4,2,2)
-    plt.title("x velocity")
-    for i in range(7):
-        plt.axvspan(t[time_stamps[i*4]],t[time_stamps[i*4+4]],alpha=0.5,color=colors[i])
-    plt.plot(t,vx)
-    plt.grid()
-    plt.scatter(t[fX],vx[fX],color='red')
-    plt.scatter(t[fY],vx[fY],color='green')
-
-
-
-    plt.subplot(4,2,3)
-    plt.title("y coordinates")
-    for i in range(7):
-        plt.axvspan(t[time_stamps[i*4]],t[time_stamps[i*4+4]],alpha=0.5,color=colors[i])
-    plt.plot(t,y)
-    plt.scatter(t[fX],y[fX],color='red')
-    plt.scatter(t[fY],y[fY],color='green')
-    plt.grid()
+    figs = fig.subfigures(2,1)
+    figs[0].text(0.025,0.8,title,va='top',ha='left',size='large')
+    figs[0].suptitle("Recapitulative table of the sequence",style='oblique',size="x-large")
     
-    plt.subplot(4,2,4)
-    plt.title("y velocity")
-    for i in range(7):
-        plt.axvspan(t[time_stamps[i*4]],t[time_stamps[i*4+4]],alpha=0.5,color=colors[i])
-    plt.plot(t,vy)
-    plt.grid()
-    plt.scatter(t[fX],vy[fX],color='red')
-    plt.scatter(t[fY],vy[fY],color='green')
+    gsA = gridspec.GridSpec(2,5,figure=figs[0])
+    gsB = gridspec.GridSpec(2,5,figure=figs[1])
+    ax_x = figs[0].add_subplot(gsA[0,1:3])
+    ax_vx = figs[0].add_subplot(gsA[1,1:3],sharex=ax_x)
+    ax_y = figs[0].add_subplot(gsA[0,3:])
+    ax_vy = figs[0].add_subplot(gsA[1,3:],sharex=ax_y)
+    figs[0].subplots_adjust(hspace=0,wspace=0.5,left=0.05,right=0.95)
 
-    plt.subplot(2,3,4)
-    plt.title("trajectory")
-    plt.plot(x,y)
-    plt.grid()
-    plt.scatter(x[fX],y[fX],color='red')
-    plt.scatter(x[fY],y[fY],color='green')
+    ax_traj = figs[1].add_subplot(gsB[:,0:2])
+    ax_squares = figs[1].add_subplot(gsB[:,2:4],sharex=ax_traj,sharey=ax_traj)
+    ax_quality = figs[1].add_subplot(gsB[:,4])
+    figs[1].subplots_adjust(wspace=0.5,left=0.06,right=0.95)
+
+
 
     
-    plt.subplot(2,3,5)
-    plt.title("Recognized squares")
+    ax_x.set_title("X axis")
+    ax_x.plot(t,x)
+    ax_x.scatter(t[fX],x[fX],color='red')
+    ax_x.scatter(t[fY],x[fY],color='green')
+    ax_x.grid()
+    ax_x.set_ylabel("Position [mm]")
+    
+    ax_vx.plot(t,vx)
+    ax_vx.grid()
+    ax_vx.scatter(t[fX],vx[fX],color='red')
+    ax_vx.scatter(t[fY],vx[fY],color='green')
+    ax_vx.set_xlabel("Time [s]")
+    ax_vx.set_ylabel("velocity [mm/s]")
+
+
+
+    ax_y.set_title("Y axis")
+    ax_y.plot(t,y)
+    ax_y.scatter(t[fX],y[fX],color='red')
+    ax_y.scatter(t[fY],y[fY],color='green')
+    ax_y.grid()
+    ax_y.set_ylabel("Position [mm]")
+    
+    ax_vy.plot(t,vy)
+    ax_vy.grid()
+    ax_vy.scatter(t[fX],vy[fX],color='red')
+    ax_vy.scatter(t[fY],vy[fY],color='green')
+    ax_vy.set_xlabel("Time [s]")
+    ax_vy.set_ylabel("velocity [mm/s]")
+
+        
+    ax_traj.set_title("Trajectory")
+    ax_traj.set_ylabel("Y position [mm]")
+    ax_traj.set_xlabel("X position [mm]")
+    ax_traj.plot(x,y)
+    ax_traj.grid()
+    ax_traj.scatter(x[fX],y[fX],color='red')
+    ax_traj.scatter(x[fY],y[fY],color='green')
+
+    
+    ax_squares.set_title("Recognized squares")
+    ax_squares.set_ylabel("Y position [mm]")
+    ax_squares.set_xlabel("X position [mm]")
     for j in range(7):
         i = j * 4
         x_coord = x[time_stamps[0+i:4+i]]
         y_coord = y[time_stamps[0+i:4+i]]
-        plt.scatter(x_coord,y_coord,color=colors[j])
-        plt.plot([x_coord[0],x_coord[1]],[y_coord[0],y_coord[1]],color=colors[j])
-        plt.plot([x_coord[1],x_coord[2]],[y_coord[1],y_coord[2]],color=colors[j])
-        plt.plot([x_coord[2],x_coord[3]],[y_coord[2],y_coord[3]],color=colors[j])
-        plt.plot([x_coord[3],x_coord[0]],[y_coord[3],y_coord[0]],color=colors[j])
+        ax_squares.scatter(x_coord,y_coord,color=colors[j])
+        ax_squares.plot([x_coord[0],x_coord[1]],[y_coord[0],y_coord[1]],color=colors[j])
+        ax_squares.plot([x_coord[1],x_coord[2]],[y_coord[1],y_coord[2]],color=colors[j])
+        ax_squares.plot([x_coord[2],x_coord[3]],[y_coord[2],y_coord[3]],color=colors[j])
+        ax_squares.plot([x_coord[3],x_coord[0]],[y_coord[3],y_coord[0]],color=colors[j])
+        
+        ax_x.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
+        ax_vx.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
+        ax_vy.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
+        ax_y.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
+
     
-    plt.subplot(2,3,6)
-    plt.grid()
-    plt.title('square quality')
-    plt.bar(np.arange(7),qualities,color=colors)
-    plt.axhline(np.mean(qualities))
+    ax_quality.grid()
+    ax_quality.set_title('Square quality')
+    ax_quality.bar(np.arange(7),qualities,color=colors)
+    ax_quality.axhline(mean_quality)  
     
-    plt.show()
+    figname = "Images/{}_{}".format(seq["subject"],seq["number"])
+    
+    fig.savefig(figname)
 
 def data_array(df):
     x = sp.filter_signal(df["Marker5_X"])
@@ -163,11 +200,31 @@ def data_array(df):
     fX = separatorVX(x,y,vx,vy,t)
     return x,y,vx,vy,t,fX,fY
     
-def main():
-    C = coda.import_data("Data/GBIO_2022_Group_2_S1bis_20220007_009.TXT")
-    x,y,vx,vy,t,fX,fY = data_array(C)
+def sequence_reader(seq):
+    x,y,vx,vy,t,fX,fY = data_array(seq['dataframe'])
     time_stamps = square_finder(fY)
     qualities = quality_finder(time_stamps,x,y)
-    ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities)
+    ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq)
 
+def dataframe_maker(results):
+    df = pd.read_csv(results) 
+    df.columns = ['subject','angle','number','memorization_task','success']
+    subject_data = df['subject']
+    number_data = df['number']
+    liste_data = []
+
+    for i in range(len(subject_data)) :
+        if len(str(number_data[i])) == 1:
+            liste_data.append(coda.import_data('Data/GBIO_2022_Group_2_'+str(subject_data[i])+'_20220007_00'+str(number_data[i])+'.TXT'))
+        else : 
+            liste_data.append(coda.import_data('Data/GBIO_2022_Group_2_'+str(subject_data[i])+'_20220007_0'+str(number_data[i])+'.TXT'))
+    
+    df.insert(5,'dataframe',liste_data)
+    return df
+
+def main():
+    df = dataframe_maker('result.csv')
+    sequence_reader(df.iloc[37])
+
+warnings.simplefilter('ignore')
 main()
