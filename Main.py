@@ -246,29 +246,6 @@ def seq_score():
         score_seq= [0,1,2,3,4,5,6]
         score_csv (score_seq, seq, df)
         
-def score_csv (score_seq, seq, df):
-    score_moy = 0
-    for i in range(7):
-        score_moy+=score_seq[i]
-    score_moy= score_moy/7
-    for i in range(len(df)):
-        seq_ref = str (df['Sujet'][i]) +","+ str(df['Position'][i]) +","+ str(df['Sequence'][i])
-        if seq_ref == seq:
-            df.loc[df.index[i], 'Score'] = str(score_seq)
-            df.loc[df.index[i], 'Moy'] = str(score_moy) 
-    df.to_csv('copy_of_' + 'result.csv')
-
-
-def seq_score():
-    colnames=['Sujet', 'Position', 'Sequence', 'Avec tache', 'Reussite'] 
-    df = pd.read_csv('result.csv', names=colnames, na_filter=False)
-    df["Score"] = ""
-    df["Moy"] = ""
-    for i in range(len(df)):
-        seq = (df['Sujet'][i]) +","+ str(df['Position'][i]) +","+ str(df['Sequence'][i])
-        #trouver la liste de score correspondant
-        score_seq= [0,1,2,3,4,5,6]
-        score_csv (score_seq, seq, df)
 
 def main():
     df = dataframe_maker('result.csv')
