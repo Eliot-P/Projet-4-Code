@@ -249,15 +249,15 @@ def seq_score():
 def add_column_markers():
     markersx = []
     markersy = []
-    for i in range(55):
-        markersx[i] = "Marker5_X"
-        markersy[i] = "Marker5_Y"
-    for i in range(52):
-        markersx[i+55] = "Marker1_X"
-        markersy[i+55] = "Marker1_Y"
-    for i in range(3):
-        markersx[i+55+52] = "Marker5_X"
-        markersy[i+55+52] = "Marker5_Y"
+    
+    markersx.extend("Marker5_X" for i in range(55))
+    markersy.extend("Marker5_Y" for i in range(55))
+
+    markersx.extend("Marker1_X" for i in range(50))
+    markersy.extend("Marker1_Y" for i in range(50))
+    
+    markersx.extend("Marker5_X" for i in range(2))
+    markersy.extend("Marker5_Y" for i in range(2))
     
     result_marker = pd.read_csv('result.csv')
         
@@ -265,6 +265,9 @@ def add_column_markers():
     result_marker['markersy'] = markersy
     
     result_marker.to_csv('result_marker.csv')
+        
+    
+
         
 
         
