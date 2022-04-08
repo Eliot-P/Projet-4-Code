@@ -246,6 +246,28 @@ def seq_score():
         score_seq= [0,1,2,3,4,5,6]
         score_csv (score_seq, seq, df)
         
+def add_column_markers():
+    markersx = []
+    markersy = []
+    for i in range(55):
+        markersx[i] = "Marker5_X"
+        markersy[i] = "Marker5_Y"
+    for i in range(52):
+        markersx[i+55] = "Marker1_X"
+        markersy[i+55] = "Marker1_Y"
+    for i in range(3):
+        markersx[i+55+52] = "Marker5_X"
+        markersy[i+55+52] = "Marker5_Y"
+    
+    result_marker = pd.read_csv('result.csv')
+        
+    result_marker['markersx'] = markersx
+    result_marker['markersy'] = markersy
+    
+    result_marker.to_csv('result_marker.csv')
+        
+
+        
 def main():
     df = dataframe_maker('result.csv')
     sequence_reader(df.iloc[37])
