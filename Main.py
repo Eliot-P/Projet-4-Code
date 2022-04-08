@@ -246,7 +246,6 @@ def seq_score():
         score_seq= [0,1,2,3,4,5,6]
         score_csv (score_seq, seq, df)
         
-
 def main():
     df = dataframe_maker('result.csv')
     sequence_reader(df.iloc[37])
