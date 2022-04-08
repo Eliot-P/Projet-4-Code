@@ -11,7 +11,7 @@ for i in range(108):
     frame = df.iloc[i]
     iter_frame=frame["dataframe"]
     fig = plt.figure(figsize=[24,16])
-    fig.suptitle("Entry : {}".format(i+1),size="xx-large")
+    fig.suptitle("Subject : {} --- take : {}".format(frame["subject"],frame["number"]),size="xx-large")
 
     for j in range (h):
         ax_em = fig.add_subplot(4,8,j*4+1)
@@ -35,11 +35,6 @@ for i in range(108):
         
         ax_em.text(0.2,0.5,iter_frame.columns[(j*4)+1][:-2])
     fig.subplots_adjust(wspace=0.5,hspace=0.5)
-    fig.savefig("Images\Other\entry_{}.png".format(i+1))
+    fig.savefig("Images\Other\{}_{}_{}.png".format(i+1,frame["subject"],frame["number"]))
     print("Finished entry {} out of 108".format(i+1))
 
-"""
-C = coda.import_data("Data/GBIO_2022_Group_2_S4_20220007_019.TXT")
-df = dataframe_maker("result.csv")
-print(df)
-"""
