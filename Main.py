@@ -212,7 +212,7 @@ def dataframe_maker(results):
     subject_data = df['subject']
     number_data = df['number']
     liste_data = []
-
+    
     for i in range(len(subject_data)) :
         if len(str(number_data[i])) == 1:
             liste_data.append(coda.import_data('Data/GBIO_2022_Group_2_'+str(subject_data[i])+'_20220007_00'+str(number_data[i])+'.TXT'))

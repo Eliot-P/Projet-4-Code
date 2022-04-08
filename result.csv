@@ -1,3 +1,4 @@
+'subject','angle','number','memorization_task','success'
 S1,0,002,False,NaN
 S1,0,003,True,False
 S1,0,004,False,NaN
