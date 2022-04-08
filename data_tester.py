@@ -5,9 +5,8 @@ from Main import dataframe_maker
 
 
 df = dataframe_maker("result.csv")
-for i in range(100,102):
+for i in range(107):
     iter_frame = df.iloc[i]["dataframe"]
-    #iter_frame = iter_frame.fillna(0)
     fig = plt.figure(figsize=[24,16])
     fig.suptitle("Entry : {}".format(i+1),size="xx-large")
     first_marker = int(iter_frame.columns[2][6]) - 1
@@ -35,3 +34,4 @@ for i in range(100,102):
         ax_em.text(0.2,0.5,iter_frame.columns[(j*4)+1][:-2])
     fig.subplots_adjust(wspace=0.5,hspace=0.5)
     fig.savefig("Images\Other\entry_{}.png".format(i+1))
+    print("Finished entry {} out of 107".format(i+1))
