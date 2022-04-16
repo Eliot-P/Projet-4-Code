@@ -265,7 +265,32 @@ def add_column_markers():
     result_marker['markersy'] = markersy
     
     result_marker.to_csv('result_marker.csv')
-        
+ 
+def mean_square_orientation():
+    df = pd.read_csv("result.csv")
+    subject = ['S1', 'S2', 'S3', 'S4']
+    angle = ['0','90','180']
+    means = [[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]]]
+    number_with = 0
+    number_without = 0
+    subject_data = df['subject']
+    for i in range(len(df)):
+        for j in subject : 
+            if str(subject_data[i])== j or str(subject_data[i])== j +'bis' :
+                for k in angle : 
+                    if str(df['angle'][i])== k:
+                        if str(df['memorization_task'][i])=='True':
+                            means[subject.index(j)][angle.index(k)][0]+= int(df['angle'][i])
+                            number_with += 1
+                        if str(df['memorization_task'][i])=='False':
+                            means[subject.index(j)][angle.index(k)][1]+= int(df['angle'][i])
+                            number_without += 1
+                    else :
+                        means[subject.index(j)][angle.index(k)][0] /= number_with 
+                        means[subject.index(j)][angle.index(k)][1] /= number_without
+                        number_with = 0
+                        number_without = 0
+    print(means)
     
 
         
