@@ -189,9 +189,10 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
     
     fig.savefig(figname)
 
-def data_array(df):
-    x = sp.filter_signal(df["Marker5_X"])
-    y = sp.filter_signal(df["Marker5_Y"])
+def data_array(seq):
+    df = seq["dataframe"]
+    x = sp.filter_signal(df[seq["markersx"]])
+    y = sp.filter_signal(df[seq["markersy"]])
 
     t = np.array(df["time"])
     vx = sp.derive(x,200)
@@ -201,7 +202,7 @@ def data_array(df):
     return x,y,vx,vy,t,fX,fY
     
 def sequence_reader(seq):
-    x,y,vx,vy,t,fX,fY = data_array(seq['dataframe'])
+    x,y,vx,vy,t,fX,fY = data_array(seq)
     time_stamps = square_finder(fY)
     qualities = quality_finder(time_stamps,x,y)
     ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq)
