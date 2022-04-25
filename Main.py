@@ -52,6 +52,40 @@ def find_angles_rework(xi,yi):
     theta_refined = abs(theta)
     return theta_refined
 
+def separator_rework(x,y,vx,vy,t):
+    v= np.sqrt(vx*vx+vy*vy)
+    max = np.nanmax(v)
+    indexes = np.argwhere((v<0.10*max))
+    print(indexes)
+    indexes_refined = []
+    for i in range(1,len(indexes)-1):
+        if indexes[i+1,0] - indexes[i,0] > 50:
+            indexes_refined.append(indexes[i,0])
+        if indexes[i,0] - indexes[i-1,0] > 50 :
+            indexes_refined.append(indexes[i,0])
+    print(indexes_refined)
+    
+    indexes_refined = indexes_refined[1:57]
+    stamps = np.zeros(28,dtype=int)
+    j=0
+    for i in range(0,len(indexes_refined),2):
+        start = indexes_refined[i]
+        stop  = indexes_refined[i+1]
+        stamps[j] = (np.argmin(v[start:stop+1]) + start)
+        j+=1
+    print(stamps)
+    plt.plot(t,v)
+    plt.scatter(t[stamps],v[stamps])
+    line = 0.1*np.nanmax(v)
+    plt.axhline(line,color="black")
+    plt.show()
+    plt.plot(x,y)
+    plt.scatter(x[stamps],y[stamps])
+    plt.scatter(x[indexes_refined],y[indexes_refined],color='red')
+    plt.show()
+    return(stamps)
+    
+
 
 def separatorVY(x,y,vx,vy,t):
     vy_sample = vy[50:400]
@@ -204,12 +238,14 @@ def data_array(seq):
 def sequence_reader(seq):
     x,y,vx,vy,t,fX,fY = data_array(seq)
     time_stamps = square_finder(fY)
+    #time_stamps = separator_rework(x,y,vx,vy,t)
+    print(time_stamps)
     qualities = quality_finder(time_stamps,x,y)
     ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq)
 
 def dataframe_maker(results):
     df = pd.read_csv(results) 
-    df.columns = ['subject','angle','number','memorization_task','success']
+    df.columns = ['subject','angle','number','memorization_task','success','markersx','markersy']
     subject_data = df['subject']
     number_data = df['number']
     liste_data = []
@@ -254,18 +290,24 @@ def add_column_markers():
     markersx.extend("Marker5_X" for i in range(55))
     markersy.extend("Marker5_Y" for i in range(55))
 
-    markersx.extend("Marker1_X" for i in range(50))
-    markersy.extend("Marker1_Y" for i in range(50))
+    markersx.extend("Marker1_X" for i in range(5))
+    markersy.extend("Marker1_Y" for i in range(5))
     
-    markersx.extend("Marker5_X" for i in range(2))
-    markersy.extend("Marker5_Y" for i in range(2))
+    markersx.extend("Marker2_X" for i in range(9))
+    markersy.extend("Marker2_Y" for i in range(9))
+    
+    markersx.extend("Marker1_X" for i in range(36))
+    markersy.extend("Marker1_Y" for i in range(36))
+    
+    markersx.extend("Marker5_X" for i in range(3))
+    markersy.extend("Marker5_Y" for i in range(3))
     
     result_marker = pd.read_csv('result.csv')
         
     result_marker['markersx'] = markersx
     result_marker['markersy'] = markersy
     
-    result_marker.to_csv('result_marker.csv')
+    result_marker.to_csv('result_marker.csv',index=False,na_rep='NaN')
  
 def mean_square_orientation():
     df = pd.read_csv("result.csv")
@@ -298,7 +340,8 @@ def mean_square_orientation():
 
         
 def main():
-    df = dataframe_maker('result.csv')
+    add_column_markers()
+    df = dataframe_maker('result_marker.csv')
     sequence_reader(df.iloc[37])
 
 warnings.simplefilter('ignore')
