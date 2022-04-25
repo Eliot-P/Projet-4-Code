@@ -126,7 +126,7 @@ def main():
     
     
 warnings.simplefilter('ignore')
-main()
+#main()
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")
@@ -134,4 +134,4 @@ def result_reader():
     plotter.memorization(global_df)
     plotter.DTC_calculator(global_df)
 
-#result_reader()
+result_reader()
