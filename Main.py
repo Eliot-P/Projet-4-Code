@@ -118,7 +118,7 @@ def main():
                 data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],np.nan,np.nan,np.nan,renumbering[i]])
             f.write("An error as occured with this sequence entry:{}  subject {} take {} with marker {}\n".format(i+1,global_df["subject"][i],global_df["number"][i],global_df["markersx"][i]))
         print("finished with entry {}".format(i+1))
-    result_df = pd.DataFrame(data_list,columns=['subject','angle','number','memorization_task','success','qualiti_angle','qualiti_long','qualiti_added','renumber'])
+    result_df = pd.DataFrame(data_list,columns=['subject','angle','number','memorization_task','success','quality_angle','quality_long','quality_added','renumber'])
     f.close()
     
     
@@ -126,7 +126,7 @@ def main():
     
     
 warnings.simplefilter('ignore')
-#main()
+main()
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")
@@ -134,4 +134,4 @@ def result_reader():
     plotter.memorization(global_df)
     plotter.DTC_calculator(global_df)
 
-result_reader()
+#result_reader()

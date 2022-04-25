@@ -104,27 +104,27 @@ def plotter(x,y,vx,vy,t,time_stamps,qualities,seq):
     
 def sequence_quality_plotter(df):
     
-    ax = sns.catplot(y="qualiti_long",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
+    ax = sns.catplot(y="quality_long",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_long.png")
     plt.clf()
     
-    ax = sns.catplot(y="qualiti_angle",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
+    ax = sns.catplot(y="quality_angle",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_angle.png")
     plt.clf()
     
-    ax = sns.catplot(y="qualiti_added",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
+    ax = sns.catplot(y="quality_added",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_added.png")
     plt.clf()
     
-    ax=sns.catplot(x="renumber",y="qualiti_added",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    ax=sns.catplot(x="renumber",y="quality_added",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_added.png")
     plt.clf()
     
-    ax=sns.catplot(x="renumber",y="qualiti_angle",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    ax=sns.catplot(x="renumber",y="quality_angle",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_angle.png")
     plt.clf()
     
-    ax=sns.catplot(x="renumber",y="qualiti_long",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    ax=sns.catplot(x="renumber",y="quality_long",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_long.png")
     plt.clf()
     
@@ -135,48 +135,48 @@ def memorization(df):
     plt.clf()
     
 def DTC_calculator(df):
-    S1_0_No_memo = df[(df['subject']==1) & (df['angle']==0) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S1_0_memo = df[(df['subject']==1) & (df['angle']==0) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S1_0_No_memo = df[(df['subject']==1) & (df['angle']==0) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S1_0_memo = df[(df['subject']==1) & (df['angle']==0) & (df['memorization_task'] == True)]['quality_added'].mean()
     S1_0_DTC = ((S1_0_memo - S1_0_No_memo)/S1_0_No_memo*100)
     
-    S1_90_No_memo = df[(df['subject']==1) & (df['angle']==90) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S1_90_memo = df[(df['subject']==1) & (df['angle']==90) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S1_90_No_memo = df[(df['subject']==1) & (df['angle']==90) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S1_90_memo = df[(df['subject']==1) & (df['angle']==90) & (df['memorization_task'] == True)]['quality_added'].mean()
     S1_90_DTC = ((S1_90_memo - S1_90_No_memo)/S1_90_No_memo*100)
     
-    S1_180_No_memo = df[(df['subject']==1) & (df['angle']==180) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S1_180_memo = df[(df['subject']==1) & (df['angle']==180) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S1_180_No_memo = df[(df['subject']==1) & (df['angle']==180) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S1_180_memo = df[(df['subject']==1) & (df['angle']==180) & (df['memorization_task'] == True)]['quality_added'].mean()
     S1_180_DTC = ((S1_180_memo - S1_180_No_memo)/S1_180_No_memo*100)
     
-    S2_0_No_memo = df[(df['subject']==2) & (df['angle']==0) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S2_0_memo = df[(df['subject']==2) & (df['angle']==0) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S2_0_No_memo = df[(df['subject']==2) & (df['angle']==0) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S2_0_memo = df[(df['subject']==2) & (df['angle']==0) & (df['memorization_task'] == True)]['quality_added'].mean()
     S2_0_DTC = ((S2_0_memo - S1_0_No_memo)/S2_0_No_memo*100)
     
-    S2_90_No_memo = df[(df['subject']==2) & (df['angle']==90) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S2_90_memo = df[(df['subject']==2) & (df['angle']==90) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S2_90_No_memo = df[(df['subject']==2) & (df['angle']==90) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S2_90_memo = df[(df['subject']==2) & (df['angle']==90) & (df['memorization_task'] == True)]['quality_added'].mean()
     S2_90_DTC = ((S2_90_memo - S2_90_No_memo)/S2_90_No_memo*100)
     
-    S2_180_No_memo = df[(df['subject']==2) & (df['angle']==180) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S2_180_memo = df[(df['subject']==2) & (df['angle']==180) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S2_180_No_memo = df[(df['subject']==2) & (df['angle']==180) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S2_180_memo = df[(df['subject']==2) & (df['angle']==180) & (df['memorization_task'] == True)]['quality_added'].mean()
     S2_180_DTC = ((S2_180_memo - S2_180_No_memo)/S2_180_No_memo*100)
     
-    S3_0_No_memo = df[(df['subject']==3) & (df['angle']==0) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S3_0_memo = df[(df['subject']==3) & (df['angle']==0) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S3_0_No_memo = df[(df['subject']==3) & (df['angle']==0) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S3_0_memo = df[(df['subject']==3) & (df['angle']==0) & (df['memorization_task'] == True)]['quality_added'].mean()
     S3_0_DTC = ((S3_0_memo - S3_0_No_memo)/S3_0_No_memo*100)
     
-    S3_90_No_memo = df[(df['subject']==3) & (df['angle']==90) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S3_90_memo = df[(df['subject']==3) & (df['angle']==90) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S3_90_No_memo = df[(df['subject']==3) & (df['angle']==90) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S3_90_memo = df[(df['subject']==3) & (df['angle']==90) & (df['memorization_task'] == True)]['quality_added'].mean()
     S3_90_DTC = ((S3_90_memo - S3_90_No_memo)/S3_90_No_memo*100)
     
-    S3_180_No_memo = df[(df['subject']==3) & (df['angle']==180) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S3_180_memo = df[(df['subject']==3) & (df['angle']==180) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S3_180_No_memo = df[(df['subject']==3) & (df['angle']==180) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S3_180_memo = df[(df['subject']==3) & (df['angle']==180) & (df['memorization_task'] == True)]['quality_added'].mean()
     S3_180_DTC = ((S3_180_memo - S3_180_No_memo)/S3_180_No_memo*100)
     
-    S4_0_No_memo = df[(df['subject']==4) & (df['angle']==0) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S4_0_memo = df[(df['subject']==4) & (df['angle']==0) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S4_0_No_memo = df[(df['subject']==4) & (df['angle']==0) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S4_0_memo = df[(df['subject']==4) & (df['angle']==0) & (df['memorization_task'] == True)]['quality_added'].mean()
     S4_0_DTC = ((S4_0_memo - S4_0_No_memo)/S4_0_No_memo*100)
     
-    S4_180_No_memo = df[(df['subject']==4) & (df['angle']==180) & (df['memorization_task'] == False)]['qualiti_added'].mean()
-    S4_180_memo = df[(df['subject']==4) & (df['angle']==180) & (df['memorization_task'] == True)]['qualiti_added'].mean()
+    S4_180_No_memo = df[(df['subject']==4) & (df['angle']==180) & (df['memorization_task'] == False)]['quality_added'].mean()
+    S4_180_memo = df[(df['subject']==4) & (df['angle']==180) & (df['memorization_task'] == True)]['quality_added'].mean()
     S4_180_DTC = ((S4_180_memo - S4_180_No_memo)/S4_180_No_memo*100)
     
     
