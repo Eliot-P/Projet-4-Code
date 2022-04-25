@@ -56,24 +56,24 @@ def separator_rework(x,y,vx,vy,t):
     v= np.sqrt(vx*vx+vy*vy)
     max = np.nanmax(v)
     indexes = np.argwhere((v<0.10*max))
-    print(indexes)
     indexes_refined = []
     for i in range(1,len(indexes)-1):
         if indexes[i+1,0] - indexes[i,0] > 50:
             indexes_refined.append(indexes[i,0])
         if indexes[i,0] - indexes[i-1,0] > 50 :
             indexes_refined.append(indexes[i,0])
-    print(indexes_refined)
     
     indexes_refined = indexes_refined[1:57]
-    stamps = np.zeros(28,dtype=int)
+    stamps = np.zeros(29,dtype=int)
     j=0
     for i in range(0,len(indexes_refined),2):
         start = indexes_refined[i]
         stop  = indexes_refined[i+1]
         stamps[j] = (np.argmin(v[start:stop+1]) + start)
         j+=1
-    print(stamps)
+        
+    stamps[-1] = stamps[-2] + 200
+    """
     plt.plot(t,v)
     plt.scatter(t[stamps],v[stamps])
     line = 0.1*np.nanmax(v)
@@ -83,6 +83,7 @@ def separator_rework(x,y,vx,vy,t):
     plt.scatter(x[stamps],y[stamps])
     plt.scatter(x[indexes_refined],y[indexes_refined],color='red')
     plt.show()
+    """
     return(stamps)
     
 
@@ -124,7 +125,7 @@ def quality_finder(time_stamps,x,y):
         qualities[j] = score(x_coord,y_coord)
     return qualities
 
-def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
+def ploter(x,y,vx,vy,t,time_stamps,qualities,seq):
     
     mean_quality = np.mean(qualities)
     median_quality = np.median(qualities)
@@ -157,15 +158,13 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
     
     ax_x.set_title("X axis")
     ax_x.plot(t,x)
-    ax_x.scatter(t[fX],x[fX],color='red')
-    ax_x.scatter(t[fY],x[fY],color='green')
+    
     ax_x.grid()
     ax_x.set_ylabel("Position [mm]")
     
     ax_vx.plot(t,vx)
     ax_vx.grid()
-    ax_vx.scatter(t[fX],vx[fX],color='red')
-    ax_vx.scatter(t[fY],vx[fY],color='green')
+
     ax_vx.set_xlabel("Time [s]")
     ax_vx.set_ylabel("velocity [mm/s]")
 
@@ -173,15 +172,13 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
 
     ax_y.set_title("Y axis")
     ax_y.plot(t,y)
-    ax_y.scatter(t[fX],y[fX],color='red')
-    ax_y.scatter(t[fY],y[fY],color='green')
+
     ax_y.grid()
     ax_y.set_ylabel("Position [mm]")
     
     ax_vy.plot(t,vy)
     ax_vy.grid()
-    ax_vy.scatter(t[fX],vy[fX],color='red')
-    ax_vy.scatter(t[fY],vy[fY],color='green')
+
     ax_vy.set_xlabel("Time [s]")
     ax_vy.set_ylabel("velocity [mm/s]")
 
@@ -191,8 +188,7 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
     ax_traj.set_xlabel("X position [mm]")
     ax_traj.plot(x,y)
     ax_traj.grid()
-    ax_traj.scatter(x[fX],y[fX],color='red')
-    ax_traj.scatter(x[fY],y[fY],color='green')
+
 
     
     ax_squares.set_title("Recognized squares")
@@ -203,6 +199,7 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
         x_coord = x[time_stamps[0+i:4+i]]
         y_coord = y[time_stamps[0+i:4+i]]
         ax_squares.scatter(x_coord,y_coord,color=colors[j])
+        ax_traj.scatter(x_coord,y_coord,color=colors[j])
         ax_squares.plot([x_coord[0],x_coord[1]],[y_coord[0],y_coord[1]],color=colors[j])
         ax_squares.plot([x_coord[1],x_coord[2]],[y_coord[1],y_coord[2]],color=colors[j])
         ax_squares.plot([x_coord[2],x_coord[3]],[y_coord[2],y_coord[3]],color=colors[j])
@@ -212,6 +209,9 @@ def ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq):
         ax_vx.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
         ax_vy.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
         ax_y.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
+        
+
+
 
     
     ax_quality.grid()
@@ -231,17 +231,15 @@ def data_array(seq):
     t = np.array(df["time"])
     vx = sp.derive(x,200)
     vy = sp.derive(y,200)
-    fY = separatorVY(x,y,vx,vy,t)
-    fX = separatorVX(x,y,vx,vy,t)
-    return x,y,vx,vy,t,fX,fY
+
+    return x,y,vx,vy,t
     
 def sequence_reader(seq):
-    x,y,vx,vy,t,fX,fY = data_array(seq)
-    time_stamps = square_finder(fY)
-    #time_stamps = separator_rework(x,y,vx,vy,t)
-    print(time_stamps)
+    x,y,vx,vy,t = data_array(seq)
+    #time_stamps = square_finder(fY)
+    time_stamps = separator_rework(x,y,vx,vy,t)
     qualities = quality_finder(time_stamps,x,y)
-    ploter(x,y,vx,vy,t,fX,fY,time_stamps,qualities,seq)
+    ploter(x,y,vx,vy,t,time_stamps,qualities,seq)
 
 def dataframe_maker(results):
     df = pd.read_csv(results) 
@@ -308,7 +306,7 @@ def add_column_markers():
     result_marker['markersy'] = markersy
     
     result_marker.to_csv('result_marker.csv',index=False,na_rep='NaN')
- 
+
 def mean_square_orientation():
     df = pd.read_csv("result.csv")
     subject = ['S1', 'S2', 'S3', 'S4']
