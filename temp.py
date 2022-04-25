@@ -174,3 +174,146 @@ def mean_square_orientation():
                         number_with = 0
                         number_without = 0
     print(means)
+    
+    
+def result_sequence_par_pers_par_angle(pers, persbis, angle):
+    
+    f = open('result.csv')
+    csv_f = csv.reader(f)
+    moy = 0
+    
+    for row in csv_f:
+        if (row[0]==pers or row[0]==persbis):
+            if (row[1]==str(angle) and row[3] == 'True'):
+                if (row[4]=='True'):
+                    moy=moy+1
+    return moy       
+    #print("la moyenne de réussite de "+ pers+ " pour la mémorisation est de " + str(moy) + " sur cinq pour la position "+ str(angle))
+        
+        
+def result_sequence_par_angle(angle):
+    
+    f = open('result.csv')
+    csv_f = csv.reader(f)
+    moy = 0
+    
+    for row in csv_f:
+        if (row[1]==str(angle) and row[3] == 'True'):
+                if (row[4]=='True'):
+                    moy=moy+1
+    return moy/4        
+    #print("la moyenne de réussite de pour la mémorisation est de " + str(moy) + " sur vingt pour la position "+ str(angle))
+
+
+#def score_total(pers,persbis, angle):
+    
+ #   moy_sequence= result_sequence_par_pers_par_angle(pers, persbis, angle)
+  #  moy_sequence_sur_dix = moy_sequence / 5
+    
+   # score_moy_carres = mean_sqaure_orientation_par_personne
+    #score_moy_carres_sur_jspcombien = score_moy_carres /jspcombien 
+    #somme = moy_sequence_sur_dix + score_moy_carres_sur_jspcombien
+
+def analyze_length_segment(df,t): 
+    x = D_E.data_array(df[df.column[6]][t])[0]
+    y = D_E.data_array(df[df.column[6]][t])[1]
+    fY = D_E.data_array(df[df.column[6]][t])[6]
+    #longueur totale des segments x et y de chaque séquence
+    seg_x = 0
+    seg_y = 0
+    time_stamps = D_E.square_finder(fY)
+    for j in range(7): 
+        i = j * 4
+        x_coord = x[time_stamps[0+i:4+i]]
+        y_coord = y[time_stamps[0+i:4+i]]
+        seg_x += np.sqrt((x_coord[0]-x_coord[1])**2 +(y_coord[0]-y_coord[1])**2 )
+        seg_y += np.sqrt((x_coord[1]-x_coord[2])**2 +(y_coord[1]-y_coord[2])**2 )
+        seg_x += np.sqrt((x_coord[2]-x_coord[3])**2 +(y_coord[2]-y_coord[3])**2 )
+        seg_y += np.sqrt((x_coord[3]-x_coord[0])**2 +(y_coord[3]-y_coord[0])**2 )
+    #moyenne de la longueur des segments x et y de chaque séquence
+    moy_x = seg_x/7
+    moy_y = seg_y/7
+    df.loc[df.index[t], 'Moy_x'] += moy_x
+    df.loc[df.index[t], 'Moy_y'] += moy_y
+    df.to_csv('verticality.csv')
+        
+
+def seq_length_segment():
+    df = pd.read_csv('Dataframe_result.csv', na_filter=False)
+    df["Moy_x"] = 0
+    df["Moy_y"] = 0
+    for i in range(len(df)):
+        analyze_length_segment(df,i)
+
+
+def ratio_verticality(): 
+    df = pd.read_csv('verticality.csv', na_filter=False)
+    moy_x_0 = 0
+    moy_y_0 = 0
+    moy_x_90 = 0
+    moy_y_90 = 0
+    moy_x_180 = 0
+    moy_y_180 = 0
+    for i in range(len(df)):
+        if str(df[df.columns[1]][i])=='0':
+            moy_x_0 += df[df.columns[7]][i]
+            moy_x_0 += df[df.columns[8]][i]
+        elif str(df[df.columns[1]][i])=='90':
+            moy_x_90 += df[df.columns[7]][i]
+            moy_x_90 += df[df.columns[8]][i]
+        else :
+            moy_x_180 += df[df.columns[7]][i]
+            moy_x_180 += df[df.columns[8]][i]
+    moy_x_0 /= 108
+    moy_y_0 /= 108
+    moy_x_90 /= 108
+    moy_y_90 /= 108
+    moy_x_180 /= 108
+    moy_y_180 /= 108
+    return moy_x_0/moy_y_0, moy_x_90/moy_y_90, moy_x_180/moy_y_180  
+
+def plot_verticality(): 
+    angle = [0,90, 180]
+    plt.plot(['0','90','180'], ratio_verticality(), markers='o')
+    plt.ylim((0,4))
+    plt.title ("Rapport des longueurs moyennes sur les largeurs moyennes des carrés en fonction de l'orientation de la chaise")
+    plt.xlabel("Angles d'orientation de la chaise")
+    plt.ylabel("Rapport X/Y (sur 5)")
+    plt.show()
+
+def plotter_mémorization(): 
+    angle = [0,90, 180]
+    y=[]
+    for i in range (3):   
+        y.append(result_sequence_par_angle(angle[i]))
+    plt.bar(['0','90','180'], y)
+    plt.ylim((0,5))
+    plt.title ("Moyennes des réussites de la tâche de mémorisation en fonction de l'orientation de la chaise")
+    plt.xlabel("Angles d'orientation de la chaise")
+    plt.ylabel("Moyenne du nombre de réussites de la tache de mémorisation (sur 5)")
+    plt.show()
+
+def plotter_mémorization_par_pers(): 
+    angle = [0,90, 180]
+    subject = ['S1', 'S2', 'S3', 'S4']
+    y1=[]
+    y2=[]
+    y3=[]
+    y4=[]
+    for i in range (3):   
+        y1.append(result_sequence_par_pers_par_angle(subject[0], subject[0]+'bis', angle[i]))
+        y2.append(result_sequence_par_pers_par_angle(subject[1], subject[1]+'bis', angle[i]))
+        y3.append(result_sequence_par_pers_par_angle(subject[2], subject[2]+'bis', angle[i]))
+        y4.append(result_sequence_par_pers_par_angle(subject[3], subject[3]+'bis', angle[i]))
+    axe_x = np.arange(len(angle))
+    plt.bar(axe_x-0.15, y1, 0.1, label='S1')
+    plt.bar(axe_x-0.05, y2, 0.1, label='S2')
+    plt.bar(axe_x+0.05, y3, 0.1, label='S3')
+    plt.bar(axe_x+0.15, y4, 0.1, label='S4')
+    plt.xticks(axe_x, angle)
+    plt.ylim((0,5))
+    plt.legend()
+    plt.title ("Réussites de la tâche de mémorisation en fonction de l'orientation de la chaise par pers")
+    plt.xlabel("Angles d'orientation de la chaise")
+    plt.ylabel("Nombre de réussites de la tache de mémorisation (sur 5)")
+    plt.show()
