@@ -1,0 +1,148 @@
+subject,angle,number,memorization_task,success,markersx,markersy,Qualities_angle,Qualities_long,Qualities_added
+S1,0,2,False,NaN,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,3,True,False,Marker5_X,Marker5_Y,"[array([44.35133279, 33.23812199, 49.27859385,  7.43519579,  4.66963455,
+        6.84475603,  5.73095171])]","[array([120.73244512, 119.81655454, 115.06546488,  21.92147636,
+        33.19336194,  19.53275066,  15.41431252])]","[array([165.08377791, 153.05467653, 164.34405873,  29.35667215,
+        37.86299649,  26.37750669,  21.14526423])]"
+S1,0,4,False,NaN,Marker5_X,Marker5_Y,"[array([12.17544868, 14.5736269 , 42.80163482,  2.78019433,  4.34800286,
+        5.79639375,  6.07676334])]","[array([ 96.55802002, 101.98119343, 107.83643926,   6.13690518,
+        10.13228178,   8.49506374,   9.23899478])]","[array([108.7334687 , 116.55482033, 150.63807408,   8.91709951,
+        14.48028463,  14.29145748,  15.31575812])]"
+S1,0,5,True,True,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,6,False,NaN,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,7,True,True,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,8,False,NaN,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,9,True,True,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,10,False,NaN,Marker5_X,Marker5_Y,"[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]","[array([0., 0., 0., 0., 0., 0., 0.])]"
+S1,0,11,True,True,Marker5_X,Marker5_Y,"[array([ 5.4054887 ,  7.5862472 ,  4.38257915,  2.06740258, 22.93537639,
+        5.84722993,  7.02746412])]","[array([ 35.55644179,  26.03551218,  23.20543393,  42.26369447,
+       106.83603968,  31.17946005,  34.16655233])]","[array([ 40.9619305 ,  33.62175938,  27.58801308,  44.33109705,
+       129.77141608,  37.02668998,  41.19401646])]"
+S1bis,90,2,False,NaN,Marker5_X,Marker5_Y,"[array([9.27292203, 6.45887321, 4.47145806, 3.50925119, 6.67727624,
+       4.25135975, 3.1068043 ])]","[array([16.45722026,  1.82362624,  9.77633789,  3.55074882, 11.01268568,
+        3.70599662,  6.8757532 ])]","[array([25.7301423 ,  8.28249945, 14.24779595,  7.06000001, 17.68996193,
+        7.95735637,  9.9825575 ])]"
+S1bis,90,3,True,False,Marker5_X,Marker5_Y,"[array([17.59675105,  8.08897593,  9.30369592,  6.56464618,  3.82097892,
+       11.3095696 ,  4.99658929])]","[array([19.37788492, 16.04613294,  8.30381241, 10.5443607 ,  7.56529966,
+       20.72448503, 15.43343387])]","[array([36.97463598, 24.13510888, 17.60750833, 17.10900688, 11.38627858,
+       32.03405463, 20.43002316])]"
+S1bis,90,4,False,NaN,Marker5_X,Marker5_Y,"[array([11.06523243,  3.77867566,  6.88590112,  5.43208787,  5.27610599,
+        6.88971827,  3.54101632])]","[array([20.94391674, 19.75422687, 14.83109976,  5.06726309, 11.76629751,
+        6.64137409,  8.16710068])]","[array([32.00914917, 23.53290253, 21.71700088, 10.49935096, 17.0424035 ,
+       13.53109236, 11.708117  ])]"
+S1bis,90,5,True,True,Marker5_X,Marker5_Y,"[array([11.22502586,  3.91611697,  2.94443785,  5.22838417,  6.68370942,
+        3.51552316,  4.34232649])]","[array([23.52329665, 29.53978642, 15.68846882, 25.54771887, 19.69031876,
+       16.89932116,  5.9528073 ])]","[array([34.74832251, 33.45590339, 18.63290667, 30.77610305, 26.37402818,
+       20.41484432, 10.29513379])]"
+S1bis,90,6,False,NaN,Marker5_X,Marker5_Y,"[array([ 5.39309025,  6.41347321,  4.39530373,  4.69389296, 12.23575879,
+        4.25684316,  3.73326782])]","[array([10.09117835, 13.96275677, 13.41711353, 10.33224213,  8.57104823,
+        6.01048374,  9.15063905])]","[array([15.4842686 , 20.37622999, 17.81241726, 15.02613509, 20.80680702,
+       10.2673269 , 12.88390686])]"
+S1bis,90,7,True,True,Marker5_X,Marker5_Y,"[array([11.45494397,  4.90717572,  4.09373398,  6.33991575,  3.34045757,
+        5.03323578,  2.03899248])]","[array([16.42533892, 18.32658491,  9.20151874, 12.24656372, 20.5142013 ,
+       14.57075255,  5.82951456])]","[array([27.88028289, 23.23376064, 13.29525272, 18.58647947, 23.85465887,
+       19.60398833,  7.86850704])]"
+S1bis,90,8,False,NaN,Marker5_X,Marker5_Y,"[array([10.18929893,  6.5033276 ,  5.03715858,  7.48245485,  3.67431217,
+        3.56245435,  1.60799302])]","[array([14.21258328,  4.25114037, 12.19501958,  7.97052663,  7.47282032,
+        4.90500366,  5.15286848])]","[array([24.4018822 , 10.75446797, 17.23217816, 15.45298148, 11.1471325 ,
+        8.467458  ,  6.76086151])]"
+S1bis,90,9,True,True,Marker5_X,Marker5_Y,"[array([10.84447659,  4.064259  ,  3.95518925,  3.072295  ,  5.80671717,
+       16.79377545,  2.83328256])]","[array([13.22755174,  7.64380513, 10.14911152,  4.84947841, 17.59203841,
+       16.96170094, 15.73178998])]","[array([24.07202833, 11.70806413, 14.10430076,  7.92177341, 23.39875558,
+       33.75547639, 18.56507254])]"
+S1bis,90,10,False,NaN,Marker5_X,Marker5_Y,"[array([10.461472  ,  6.11109532,  4.38626095,  6.14377642,  6.34134572,
+        7.39434693,  5.61202606])]","[array([10.71555522, 10.97230864,  8.3957468 ,  5.43385942, 12.03298807,
+       13.11647891,  7.14247866])]","[array([21.17702722, 17.08340395, 12.78200775, 11.57763584, 18.37433379,
+       20.51082584, 12.75450472])]"
+S1bis,90,11,True,False,Marker5_X,Marker5_Y,"[array([10.75311889,  7.10100573,  4.42289641,  1.96956377,  2.2841414 ,
+        9.54173544,  3.95273646])]","[array([ 9.37663699, 10.2682581 ,  7.11130039,  5.34313726, 20.24392677,
+       11.64202996,  4.61626155])]","[array([20.12975587, 17.36926384, 11.53419679,  7.31270103, 22.52806817,
+       21.1837654 ,  8.56899801])]"
+S1bis,180,12,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,13,True,True,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,14,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,15,True,False,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,16,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,17,True,False,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,18,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,19,True,True,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,20,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S1bis,180,21,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,0,1,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,0,2,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,0,3,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,0,4,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,0,5,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,0,6,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,0,7,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,0,8,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,0,9,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,0,10,True,False,Marker5_X,Marker5_Y,[],[],[]
+S2,90,11,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,90,12,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,90,13,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,90,14,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,90,15,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,90,16,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,90,17,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,90,18,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,90,19,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,90,20,True,True,Marker5_X,Marker5_Y,[],[],[]
+S2,180,22,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,180,23,True,False,Marker5_X,Marker5_Y,[],[],[]
+S2,180,24,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,180,25,True,False,Marker5_X,Marker5_Y,[],[],[]
+S2,180,26,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S2,180,27,True,False,Marker1_X,Marker1_Y,[],[],[]
+S2,180,28,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S2,180,29,True,False,Marker1_X,Marker1_Y,[],[],[]
+S2,180,30,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S2,180,31,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3,0,1,True,False,Marker2_X,Marker2_Y,[],[],[]
+S3,0,2,False,NaN,Marker2_X,Marker2_Y,[],[],[]
+S3,0,3,True,NaN,Marker2_X,Marker2_Y,[],[],[]
+S3,0,4,False,NaN,Marker2_X,Marker2_Y,[],[],[]
+S3,0,5,True,True,Marker2_X,Marker2_Y,[],[],[]
+S3,0,6,False,NaN,Marker2_X,Marker2_Y,[],[],[]
+S3,0,7,True,False,Marker2_X,Marker2_Y,[],[],[]
+S3,0,8,False,NaN,Marker2_X,Marker2_Y,[],[],[]
+S3,0,9,True,False,Marker2_X,Marker2_Y,[],[],[]
+S3,90,10,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3,90,11,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3,90,12,True,False,Marker1_X,Marker1_Y,[],[],[]
+S3,90,13,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3,90,14,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3,90,15,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3,90,16,True,False,Marker1_X,Marker1_Y,[],[],[]
+S3bis,90,1,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,90,2,True,False,Marker1_X,Marker1_Y,[],[],[]
+S3bis,90,3,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,4,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,5,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,6,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,7,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,8,True,False,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,9,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,10,True,True,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,11,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S3bis,180,12,True,True,Marker1_X,Marker1_Y,[],[],[]
+S4,0,1,True,False,Marker1_X,Marker1_Y,[],[],[]
+S4,0,2,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,0,3,True,False,Marker1_X,Marker1_Y,[],[],[]
+S4,0,4,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,0,5,True,True,Marker1_X,Marker1_Y,[],[],[]
+S4,0,6,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,0,7,True,False,Marker1_X,Marker1_Y,[],[],[]
+S4,0,8,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,0,9,True,True,Marker1_X,Marker1_Y,[],[],[]
+S4,0,10,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,180,11,True,False,Marker1_X,Marker1_Y,[],[],[]
+S4,180,12,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,180,13,True,True,Marker1_X,Marker1_Y,[],[],[]
+S4,180,14,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,180,15,True,True,Marker1_X,Marker1_Y,[],[],[]
+S4,180,16,False,NaN,Marker1_X,Marker1_Y,[],[],[]
+S4,180,17,True,False,Marker1_X,Marker1_Y,[],[],[]
+S4,180,19,False,NaN,Marker5_X,Marker5_Y,[],[],[]
+S4,180,20,True,True,Marker5_X,Marker5_Y,[],[],[]
+S4,180,21,False,NaN,Marker5_X,Marker5_Y,[],[],[]

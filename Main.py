@@ -7,279 +7,11 @@ import warnings
 import Code.coda_toolbox as coda
 import Code.signal_processing_toolbox as sp
 
-
-def squarequalitylong(x,y):
-    
-    long1 = np.sqrt((x[1] - x[0])**2 + (y[1] - y[0])**2)
-    long2 = np.sqrt((x[2] - x[1])**2 + (y[2] - y[1])**2)
-    long3 = np.sqrt((x[3] - x[2])**2 + (y[3] - y[2])**2)
-    long4 = np.sqrt((x[0] - x[3])**2 + (y[0] - y[3])**2)
-    list = [long1, long2, long3, long4]
-    quality = np.std(list)
-    
-    return quality
-
-def squarequalityangle(x,y):
-    
-    angle1 = np.arccos(((x[1] - x[0]) * (x[2] - x[1]) + (y[1] - y[0]) * (y[2] - y[1])) / (np.sqrt((x[1] - x[0])**2 + (y[1] - y[0])**2) * np.sqrt((x[2] - x[1])**2 + (y[2] - y[1])**2)))
-    angle2 = np.arccos(((x[2] - x[1]) * (x[3] - x[2]) + (y[2] - y[1]) * (y[3] - y[2])) / (np.sqrt((x[2] - x[1])**2 + (y[2] - y[1])**2) * np.sqrt((x[3] - x[2])**2 + (y[3] - y[2])**2)))
-    angle3 = np.arccos(((x[3] - x[2]) * (x[0] - x[3]) + (y[3] - y[2]) * (y[0] - y[3])) / (np.sqrt((x[3] - x[2])**2 + (y[3] - y[2])**2) * np.sqrt((x[0] - x[3])**2 + (y[0] - y[3])**2)))
-    angle4 = np.arccos(((x[0] - x[3]) * (x[1] - x[0]) + (y[0] - y[3]) * (y[1] - y[0])) / (np.sqrt((x[0] - x[3])**2 + (y[0] - y[3])**2) * np.sqrt((x[1] - x[0])**2 + (y[1] - y[0])**2)))
-    
-    list = [np.degrees(angle1), np.degrees(angle2), np.degrees(angle3), np.degrees(angle4)]
-    
-    quality = np.std(list)
-    
-    return quality
-
-def score(x,y):
-    lon = squarequalitylong(x,y)
-    angle = squarequalityangle(x,y)
-    return lon+angle
+import Plotter as plotter
+import Data_extraction as D_E
 
 
 
-def find_angles_rework(xi,yi):
-    try:
-        m1 = np.polyfit(xi[:10],yi[:10],1)
-    except np.linalg.LinAlgError:
-        return 0
-    try:
-        m2 = np.polyfit(xi[-10:],yi[-10:],1)
-    except np.linalg.LinAlgError:
-        return 0
-    theta = np.arctan((m1[0] - m2[0])/(1 + m1[0]*m2[0]))
-    theta_refined = abs(theta)
-    return theta_refined
-
-def separator_rework(x,y,vx,vy,t):
-    v= np.sqrt(vx*vx+vy*vy)
-    max = np.nanmax(v)
-    indexes = np.argwhere((v<0.10*max))
-    indexes_refined = []
-    for i in range(1,len(indexes)-1):
-        if indexes[i+1,0] - indexes[i,0] > 50:
-            indexes_refined.append(indexes[i,0])
-        if indexes[i,0] - indexes[i-1,0] > 50 :
-            indexes_refined.append(indexes[i,0])
-    
-    indexes_refined = indexes_refined[1:57]
-    stamps = np.zeros(29,dtype=int)
-    j=0
-    for i in range(0,len(indexes_refined),2):
-        start = indexes_refined[i]
-        stop  = indexes_refined[i+1]
-        stamps[j] = (np.argmin(v[start:stop+1]) + start)
-        j+=1
-        
-    stamps[-1] = stamps[-2] + 200
-    """
-    plt.plot(t,v)
-    plt.scatter(t[stamps],v[stamps])
-    line = 0.1*np.nanmax(v)
-    plt.axhline(line,color="black")
-    plt.show()
-    plt.plot(x,y)
-    plt.scatter(x[stamps],y[stamps])
-    plt.scatter(x[indexes_refined],y[indexes_refined],color='red')
-    plt.show()
-    """
-    return(stamps)
-    
-
-
-def separatorVY(x,y,vx,vy,t):
-    vy_sample = vy[50:400]
-    arg1 = np.argmin(vy_sample)
-    sample_x = x[arg1:arg1+50]
-    sample_y = y[arg1:arg1+50]
-    angles = np.zeros_like(sample_x)
-    for j in range (len(sample_x)) : 
-        angles[j] = find_angles_rework(sample_x[j:j+20],sample_y[j:j+20])
-    g = np.argmax(angles) + 10
-    return g + arg1 + 50
-
-def separatorVX(x,y,vx,vy,t):
-    vx_sample = vx[100:400]
-    arg1 = np.argmax(vx_sample)
-    sample_x = x[arg1-50:arg1+200]
-    sample_y = y[arg1-50:arg1+200]
-    angles = np.zeros_like(sample_x)
-    for j in range (len(sample_x)) : 
-        angles[j] = find_angles_rework(sample_x[j:j+20],sample_y[j:j+20])
-    g = np.argmax(angles) + 10
-    return g + arg1 + 50
-
-def square_finder(f):
-    time_stamps = np.linspace(0,5600,29)
-    time_stamps+=f
-    time_stamps = np.int_(time_stamps)
-    return time_stamps
-
-def quality_finder(time_stamps,x,y):
-    qualities = np.zeros(7)
-    for j in range(7):
-        i = j*4
-        x_coord = x[time_stamps[0+i:4+i]]
-        y_coord = y[time_stamps[0+i:4+i]]
-        qualities[j] = score(x_coord,y_coord)
-    return qualities
-
-def ploter(x,y,vx,vy,t,time_stamps,qualities,seq):
-    
-    mean_quality = np.mean(qualities)
-    median_quality = np.median(qualities)
-    std_dev = np.std(qualities)
-    
-    title = " Sujet : {} \n angle : {}° \n take : {} \n memorization task : {} \n success : {} \n square quality : \n   mean : {:.2f}\n   std : {:.2f}\n   median : {:.2f}"
-    title = title.format(seq["subject"],seq["angle"],seq["number"],seq["memorization_task"],seq["success"],mean_quality,std_dev,median_quality)
-    fig = plt.figure(figsize=[13,8])
-    colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#e377c2', '#bcbd22']
-    
-    figs = fig.subfigures(2,1)
-    figs[0].text(0.025,0.8,title,va='top',ha='left',size='large')
-    figs[0].suptitle("Recapitulative table of the sequence",style='oblique',size="x-large")
-    
-    gsA = gridspec.GridSpec(2,5,figure=figs[0])
-    gsB = gridspec.GridSpec(2,5,figure=figs[1])
-    ax_x = figs[0].add_subplot(gsA[0,1:3])
-    ax_vx = figs[0].add_subplot(gsA[1,1:3],sharex=ax_x)
-    ax_y = figs[0].add_subplot(gsA[0,3:])
-    ax_vy = figs[0].add_subplot(gsA[1,3:],sharex=ax_y)
-    figs[0].subplots_adjust(hspace=0,wspace=0.5,left=0.05,right=0.95)
-
-    ax_traj = figs[1].add_subplot(gsB[:,0:2])
-    ax_squares = figs[1].add_subplot(gsB[:,2:4],sharex=ax_traj,sharey=ax_traj)
-    ax_quality = figs[1].add_subplot(gsB[:,4])
-    figs[1].subplots_adjust(wspace=0.5,left=0.06,right=0.95)
-
-
-
-    
-    ax_x.set_title("X axis")
-    ax_x.plot(t,x)
-    
-    ax_x.grid()
-    ax_x.set_ylabel("Position [mm]")
-    
-    ax_vx.plot(t,vx)
-    ax_vx.grid()
-
-    ax_vx.set_xlabel("Time [s]")
-    ax_vx.set_ylabel("velocity [mm/s]")
-
-
-
-    ax_y.set_title("Y axis")
-    ax_y.plot(t,y)
-
-    ax_y.grid()
-    ax_y.set_ylabel("Position [mm]")
-    
-    ax_vy.plot(t,vy)
-    ax_vy.grid()
-
-    ax_vy.set_xlabel("Time [s]")
-    ax_vy.set_ylabel("velocity [mm/s]")
-
-        
-    ax_traj.set_title("Trajectory")
-    ax_traj.set_ylabel("Y position [mm]")
-    ax_traj.set_xlabel("X position [mm]")
-    ax_traj.plot(x,y)
-    ax_traj.grid()
-
-
-    
-    ax_squares.set_title("Recognized squares")
-    ax_squares.set_ylabel("Y position [mm]")
-    ax_squares.set_xlabel("X position [mm]")
-    for j in range(7):
-        i = j * 4
-        x_coord = x[time_stamps[0+i:4+i]]
-        y_coord = y[time_stamps[0+i:4+i]]
-        ax_squares.scatter(x_coord,y_coord,color=colors[j])
-        ax_traj.scatter(x_coord,y_coord,color=colors[j])
-        ax_squares.plot([x_coord[0],x_coord[1]],[y_coord[0],y_coord[1]],color=colors[j])
-        ax_squares.plot([x_coord[1],x_coord[2]],[y_coord[1],y_coord[2]],color=colors[j])
-        ax_squares.plot([x_coord[2],x_coord[3]],[y_coord[2],y_coord[3]],color=colors[j])
-        ax_squares.plot([x_coord[3],x_coord[0]],[y_coord[3],y_coord[0]],color=colors[j])
-        
-        ax_x.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
-        ax_vx.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
-        ax_vy.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
-        ax_y.axvspan(t[time_stamps[i]],t[time_stamps[i+4]],alpha=0.5,color=colors[j])
-        
-
-
-
-    
-    ax_quality.grid()
-    ax_quality.set_title('Square quality')
-    ax_quality.bar(np.arange(7),qualities,color=colors)
-    ax_quality.axhline(mean_quality)  
-    
-    figname = "Images/{}_{}".format(seq["subject"],seq["number"])
-    
-    fig.savefig(figname)
-
-def data_array(seq):
-    df = seq["dataframe"]
-    x = sp.filter_signal(df[seq["markersx"]])
-    y = sp.filter_signal(df[seq["markersy"]])
-
-    t = np.array(df["time"])
-    vx = sp.derive(x,200)
-    vy = sp.derive(y,200)
-
-    return x,y,vx,vy,t
-    
-def sequence_reader(seq):
-    x,y,vx,vy,t = data_array(seq)
-    #time_stamps = square_finder(fY)
-    time_stamps = separator_rework(x,y,vx,vy,t)
-    qualities = quality_finder(time_stamps,x,y)
-    ploter(x,y,vx,vy,t,time_stamps,qualities,seq)
-
-def dataframe_maker(results):
-    df = pd.read_csv(results) 
-    df.columns = ['subject','angle','number','memorization_task','success','markersx','markersy']
-    subject_data = df['subject']
-    number_data = df['number']
-    liste_data = []
-    
-    for i in range(len(subject_data)) :
-        if len(str(number_data[i])) == 1:
-            liste_data.append(coda.import_data('Data/GBIO_2022_Group_2_'+str(subject_data[i])+'_20220007_00'+str(number_data[i])+'.TXT'))
-        else : 
-            liste_data.append(coda.import_data('Data/GBIO_2022_Group_2_'+str(subject_data[i])+'_20220007_0'+str(number_data[i])+'.TXT'))
-    
-    df.insert(5,'dataframe',liste_data)
-    return df
-
-def score_csv (score_seq, seq, df):
-    score_moy = 0
-    for i in range(7):
-        score_moy+=score_seq[i]
-    score_moy= score_moy/7
-    for i in range(len(df)):
-        seq_ref = str (df['Sujet'][i]) +","+ str(df['Position'][i]) +","+ str(df['Sequence'][i])
-        if seq_ref == seq:
-            df.loc[df.index[i], 'Score'] = str(score_seq)
-            df.loc[df.index[i], 'Moy'] = str(score_moy) 
-    df.to_csv('copy_of_' + 'result.csv')
-
-
-def seq_score():
-    colnames=['Sujet', 'Position', 'Sequence', 'Avec tache', 'Reussite'] 
-    df = pd.read_csv('result.csv', names=colnames, na_filter=False)
-    df["Score"] = ""
-    df["Moy"] = ""
-    for i in range(len(df)):
-        seq = (df['Sujet'][i]) +","+ str(df['Position'][i]) +","+ str(df['Sequence'][i])
-        #trouver la liste de score correspondant
-        score_seq= [0,1,2,3,4,5,6]
-        score_csv (score_seq, seq, df)
         
 def add_column_markers():
     markersx = []
@@ -307,40 +39,34 @@ def add_column_markers():
     
     result_marker.to_csv('result_marker.csv',index=False,na_rep='NaN')
 
-def mean_square_orientation():
-    df = pd.read_csv("result.csv")
-    subject = ['S1', 'S2', 'S3', 'S4']
-    angle = ['0','90','180']
-    means = [[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]],[[0,0],[0,0],[0,0]]]
-    number_with = 0
-    number_without = 0
-    subject_data = df['subject']
-    for i in range(len(df)):
-        for j in subject : 
-            if str(subject_data[i])== j or str(subject_data[i])== j +'bis' :
-                for k in angle : 
-                    if str(df['angle'][i])== k:
-                        if str(df['memorization_task'][i])=='True':
-                            means[subject.index(j)][angle.index(k)][0]+= int(df['angle'][i])
-                            number_with += 1
-                        if str(df['memorization_task'][i])=='False':
-                            means[subject.index(j)][angle.index(k)][1]+= int(df['angle'][i])
-                            number_without += 1
-                    else :
-                        means[subject.index(j)][angle.index(k)][0] /= number_with 
-                        means[subject.index(j)][angle.index(k)][1] /= number_without
-                        number_with = 0
-                        number_without = 0
-    print(means)
     
 
-        
 
         
 def main():
     add_column_markers()
-    df = dataframe_maker('result_marker.csv')
-    sequence_reader(df.iloc[37])
+    global_df = D_E.dataframe_maker('result_marker.csv')
+    global_df["Qualities_angle"] = [[] for _ in range(len(global_df))]
+    global_df["Qualities_long"] = [[] for _ in range(len(global_df))]
+    global_df["Qualities_added"] = [[] for _ in range(len(global_df))]
+    f = open("Errors.txt","w")
+    for i in range(len(global_df['number']-20)) :
+        seq = global_df.iloc[i]
+        
+        try:
+            x,y,vx,vy,t,time_stamps,qualities_added,qualities_angle,qualities_long = D_E.sequence_reader(seq)
+            global_df["Qualities_angle"][i].append(qualities_angle[:])
+            global_df["Qualities_long"][i].append(qualities_long[:])
+            global_df["Qualities_added"][i].append(qualities_added[:])
+            plotter.plotter(x,y,vx,vy,t,time_stamps,qualities_added,seq)
+        except:
+            global_df["Qualities_angle"][i].append(np.zeros(7)[:])
+            global_df["Qualities_long"][i].append(np.zeros(7)[:])
+            global_df["Qualities_added"][i].append(np.zeros(7)[:])
+            f.write("An error as occured with this sequence :  subject {} take {}\n".format(global_df["subject"][i],global_df["number"][i]))
+        print("finished with entry {}".format(i+1))
+    f.close()
+    global_df.to_csv("result_processed.csv",index=False,na_rep='NaN',columns=['subject','angle','number','memorization_task','success','markersx','markersy','Qualities_angle','Qualities_long','Qualities_added'])
 
 warnings.simplefilter('ignore')
 main()
