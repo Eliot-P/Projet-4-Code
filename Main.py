@@ -51,7 +51,7 @@ def add_column_markers():
     markersy.extend("Marker2_Y" for i in range(11))
     
     markersx.extend("Marker1_X" for i in range(10))
-    markersy.extend("Marker_Y" for i in range(10))
+    markersy.extend("Marker1_Y" for i in range(10))
     
     markersx.extend("Marker2_X" for i in range(9))
     markersy.extend("Marker2_Y" for i in range(9))

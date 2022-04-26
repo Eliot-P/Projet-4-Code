@@ -5,6 +5,7 @@ from matplotlib import gridspec
 import numpy as np
 import Data_extraction as D_E
 import warnings
+import Main as M
 
 
 def markers_ploter(df):
@@ -43,11 +44,11 @@ def markers_ploter(df):
         fig.savefig("Images\Other\{}_{}_{}.png".format(i+1,frame["subject"],frame["number"]))
         print("Finished entry {} out of 108".format(i+1))
 
-def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq):
+def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq,i):
     
     
-    title = " Sujet : {} \n angle : {}° \n take : {} \n memorization task : {} \n success : {} \n"
-    title = title.format(seq["subject"],seq["angle"],seq["number"],seq["memorization_task"],seq["success"])
+    title = " Sujet : {} \n angle : {}° \n take : {} \n memorization task : {} \n success : {} \n marker X : {}\n marker Y : {}"
+    title = title.format(seq["subject"],seq["angle"],seq["number"],seq["memorization_task"],seq["success"],seq["markersx"],seq["markersy"])
     fig = plt.figure(figsize=[13,8])
     colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#e377c2', '#bcbd22']
     
@@ -111,7 +112,7 @@ def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq):
     ax_squares.plot(xnew,ynew)
 
     
-    figname = "Images/In/{}_{}".format(seq["subject"],seq["number"])
+    figname = "Images/In/{}_{}_{}.png".format(i+1,seq["subject"],seq["number"])
     
     fig.savefig(figname)
     return
@@ -138,13 +139,14 @@ def data_array_new(seq):
 def position_speed_iterator(df):
     for i in range(108):
         seq = df.iloc[i]
-        x,y,vx,vy,t,x_new,y_new,vx_new,vy_new=data_array_new(seq)
-        position_speed_plotter(x,x_new,y,y_new,vx,vx_new,vy,vy_new,t,seq)
+        x,y,vx,vy,t,x_new,y_new,vx_new,vy_new=data_array_new(seq)        
+        position_speed_plotter(x,x_new,y,y_new,vx,vx_new,vy,vy_new,t,seq,i)
         print("Finished entry {}".format(i+1))
         
 def main():
     df = D_E.dataframe_maker('result_marker.csv')
     position_speed_iterator(df)
     
-warnings.simplefilter('ignore')   
+warnings.simplefilter('ignore')
+M.add_column_markers()
 main()
