@@ -4,6 +4,7 @@ import numpy as np
 import seaborn as sns
 import pandas as pd
 
+
 def plotter(x,y,vx,vy,t,time_stamps,qualities,seq):
     
     mean_quality = np.mean(qualities)
