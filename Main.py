@@ -11,8 +11,6 @@ import Plotter as plotter
 import Data_extraction as D_E
 
 
-
-        
 def add_column_markers():
     markersx = []
     markersy = []
@@ -108,17 +106,17 @@ def main():
             s = 4
 
         try:
-            x,y,vx,vy,t,time_stamps,qualities_added,qualities_angle,qualities_long = D_E.sequence_reader(seq)
+            x,y,vx,vy,t,time_stamps,qualities_ratio,qualities_angle,qualities_long = D_E.sequence_reader(seq)
             for j in range(7):
-                data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],qualities_angle[j],qualities_long[j],qualities_added[j],renumbering[i]])
+                data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],qualities_angle[j],qualities_long[j],qualities_ratio[j],renumbering[i]])
                 
-            plotter.plotter(x,y,vx,vy,t,time_stamps,qualities_added,seq)
+            plotter.plotter(x,y,vx,vy,t,time_stamps,qualities_ratio,seq)
         except:
             for j in range(7):
                 data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],np.nan,np.nan,np.nan,renumbering[i]])
             f.write("An error as occured with this sequence entry:{}  subject {} take {} with marker {}\n".format(i+1,global_df["subject"][i],global_df["number"][i],global_df["markersx"][i]))
         print("finished with entry {}".format(i+1))
-    result_df = pd.DataFrame(data_list,columns=['subject','angle','number','memorization_task','success','quality_angle','quality_long','quality_added','renumber'])
+    result_df = pd.DataFrame(data_list,columns=['subject','angle','number','memorization_task','success','quality_angle','quality_long','quality_ratio','renumber'])
     f.close()
     
     
@@ -126,7 +124,7 @@ def main():
     
     
 warnings.simplefilter('ignore')
-#main()
+main()
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")

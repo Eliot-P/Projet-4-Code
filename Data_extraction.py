@@ -31,23 +31,41 @@ def squarequalityangle(x,y):
     
     return quality
 
-def score(x,y):
-    lon = squarequalitylong(x,y)
-    angle = squarequalityangle(x,y)
-    return lon+angle
+def quality_ratio(x,y):
+    ysorted = y.argsort()
+
+    up1 = ysorted[0]
+    up2 = ysorted[1]
+    down1 = ysorted[3]
+    down2 = ysorted[2]
+    
+    top = np.sqrt((x[up1] - x[up2])**2 + (y[up1] - y[up2])**2)
+    bottom = np.sqrt((x[down1] - x[down2])**2 + (y[down1] - y[down2])**2)
+    
+    xsorted=x.argsort()
+    right1 = xsorted[0]
+    right2 = xsorted[1]
+    left1 = xsorted[3]
+    left2 = xsorted[2]
+    right = np.sqrt((x[right1] - x[right2])**2 + (y[right1] - y[right2])**2)
+    left = np.sqrt((x[left1] - x[left2])**2 + (y[left1] - y[left2])**2)
+    
+    ratio = (top+bottom)/(right+left)
+    
+    return ratio
 
 def quality_finder(time_stamps,x,y):
     qualities_angle = np.zeros(7)
     qualities_long= np.zeros(7)
-    qualities_added = np.zeros(7)
+    qualities_ratio = np.zeros(7)
     for j in range(7):
         i = j*4
         x_coord = x[time_stamps[0+i:4+i]]
         y_coord = y[time_stamps[0+i:4+i]]
         qualities_angle[j] = squarequalityangle(x_coord,y_coord)
         qualities_long[j] = squarequalitylong(x_coord,y_coord)
-        qualities_added[j] = score(x_coord,y_coord)
-    return qualities_angle, qualities_long, qualities_added
+        qualities_ratio[j] = quality_ratio(x_coord,y_coord)
+    return qualities_angle, qualities_long, qualities_ratio
 
 def separator_rework(x,y,vx,vy,t):
     v= np.sqrt(vx*vx+vy*vy)
@@ -74,8 +92,8 @@ def separator_rework(x,y,vx,vy,t):
 
 def data_array(seq):
     df = seq["dataframe"]
-    x = sp.filter_signal(df[seq["markersx"]])
-    y = sp.filter_signal(df[seq["markersy"]])
+    x = sp.filter_signal(df[seq["markersx"]].interpolate(method='spline',order=3,s=0.))
+    y = sp.filter_signal(df[seq["markersy"]].interpolate(method='spline',order=3,s=0.))
 
     t = np.array(df["time"])
     vx = sp.derive(x,200)
@@ -86,8 +104,8 @@ def data_array(seq):
 def sequence_reader(seq):
     x,y,vx,vy,t = data_array(seq)
     time_stamps = separator_rework(x,y,vx,vy,t)
-    qualities_angle, qualities_long, qualities_added = quality_finder(time_stamps,x,y)
-    return x,y,vx,vy,t,time_stamps,qualities_added,qualities_angle,qualities_long
+    qualities_angle, qualities_long, qualities_ratio = quality_finder(time_stamps,x,y)
+    return x,y,vx,vy,t,time_stamps,qualities_ratio,qualities_angle,qualities_long
 
 def dataframe_maker(results):
     df = pd.read_csv(results) 
