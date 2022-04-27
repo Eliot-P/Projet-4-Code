@@ -124,7 +124,7 @@ def main():
     
     
 warnings.simplefilter('ignore')
-main()
+#main()
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")

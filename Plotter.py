@@ -114,7 +114,7 @@ def sequence_quality_plotter(df):
     plt.clf()
     
     ax = sns.catplot(y="quality_ratio",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
-    plt.savefig("Images/General_qualities_added.png")
+    plt.savefig("Images/General_qualities_ratio.png")
     plt.clf()
     
     ax=sns.catplot(x="renumber",y="quality_ratio",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
@@ -127,6 +127,18 @@ def sequence_quality_plotter(df):
     
     ax=sns.catplot(x="renumber",y="quality_long",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_long.png")
+    plt.clf()
+    
+    ax = sns.boxplot(x="angle",y="quality_ratio",hue="memorization_task",palette="Set3",data=df)
+    plt.savefig("Images/General_mean_qualities_ratio")
+    plt.clf()
+    
+    ax = sns.boxplot(x="angle",y="quality_angle",hue="memorization_task",palette="Set3",data=df)
+    plt.savefig("Images/General_mean_qualities_angle")
+    plt.clf()
+    
+    ax = sns.boxplot(x="angle",y="quality_long",hue="memorization_task",palette="Set3",data=df)
+    plt.savefig("Images/General_mean_qualities_long")
     plt.clf()
     
 def memorization(df):
