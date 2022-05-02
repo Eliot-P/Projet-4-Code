@@ -43,6 +43,7 @@ def markers_ploter(df):
         fig.subplots_adjust(wspace=0.5,hspace=0.5)
         fig.savefig("Images\Other\{}_{}_{}.png".format(i+1,frame["subject"],frame["number"]))
         print("Finished entry {} out of 108".format(i+1))
+    return 
 
 def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq,i):
     
@@ -118,7 +119,12 @@ def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq,i):
     return
 
 
-def data_array_new(seq):
+def data_array_new(seq,i):
+    order = 3
+    l1 = [25,27,29,30,43,44,45,46,48,50,55,56]
+    if i in l1:
+        order = 1
+        
     df = seq["dataframe"]
     x = sp.filter_signal(df[seq["markersx"]])
     y = sp.filter_signal(df[seq["markersy"]])
@@ -127,8 +133,8 @@ def data_array_new(seq):
     vx = sp.derive(x,200)
     vy = sp.derive(y,200)
     
-    x_new=sp.filter_signal(df[seq["markersx"]].interpolate(method='spline',order=3,s=0.))
-    y_new=sp.filter_signal(df[seq["markersy"]].interpolate(method='spline',order=3,s=0.))
+    x_new=sp.filter_signal(df[seq["markersx"]].interpolate(method='spline',order=order,s=0.))
+    y_new=sp.filter_signal(df[seq["markersy"]].interpolate(method='spline',order=order,s=0.))
     
     vx_new = sp.derive(x_new,200)
     vy_new = sp.derive(y_new,200)
@@ -139,9 +145,9 @@ def data_array_new(seq):
 def position_speed_iterator(df):
     for i in range(108):
         seq = df.iloc[i]
-        x,y,vx,vy,t,x_new,y_new,vx_new,vy_new=data_array_new(seq)        
+        x,y,vx,vy,t,x_new,y_new,vx_new,vy_new=data_array_new(seq,i+1)        
         position_speed_plotter(x,x_new,y,y_new,vx,vx_new,vy,vy_new,t,seq,i)
-        print("Finished entry {}".format(i+1))
+        print("Data tester : finished entry {}".format(i+1))
         
 def main():
     df = D_E.dataframe_maker('result_marker.csv')

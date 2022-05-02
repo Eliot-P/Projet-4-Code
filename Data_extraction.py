@@ -90,10 +90,15 @@ def separator_rework(x,y,vx,vy,t):
     stamps[-1] = stamps[-2] + 200
     return(stamps)
 
-def data_array(seq):
+def data_array(seq,i):
+    order=3
+    i+=1
+    l1 = [25,27,29,30,43,44,45,46,48,50,55,56]
+    if i in l1:
+        order = 1
     df = seq["dataframe"]
-    x = sp.filter_signal(df[seq["markersx"]].interpolate(method='spline',order=3,s=0.))
-    y = sp.filter_signal(df[seq["markersy"]].interpolate(method='spline',order=3,s=0.))
+    x = sp.filter_signal(df[seq["markersx"]].interpolate(method='spline',order=order,s=0.))
+    y = sp.filter_signal(df[seq["markersy"]].interpolate(method='spline',order=order,s=0.))
 
     t = np.array(df["time"])
     vx = sp.derive(x,200)
@@ -101,8 +106,8 @@ def data_array(seq):
 
     return x,y,vx,vy,t
     
-def sequence_reader(seq):
-    x,y,vx,vy,t = data_array(seq)
+def sequence_reader(seq,i):
+    x,y,vx,vy,t = data_array(seq,i)
     time_stamps = separator_rework(x,y,vx,vy,t)
     qualities_angle, qualities_long, qualities_ratio = quality_finder(time_stamps,x,y)
     return x,y,vx,vy,t,time_stamps,qualities_ratio,qualities_angle,qualities_long

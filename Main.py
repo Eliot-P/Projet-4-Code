@@ -106,7 +106,7 @@ def main():
             s = 4
 
         try:
-            x,y,vx,vy,t,time_stamps,qualities_ratio,qualities_angle,qualities_long = D_E.sequence_reader(seq)
+            x,y,vx,vy,t,time_stamps,qualities_ratio,qualities_angle,qualities_long = D_E.sequence_reader(seq,i)
             for j in range(7):
                 data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],qualities_angle[j],qualities_long[j],qualities_ratio[j],renumbering[i]])
                 
@@ -115,7 +115,7 @@ def main():
             for j in range(7):
                 data_list.append([s,seq['angle'],seq['number'],seq['memorization_task'],seq['success'],np.nan,np.nan,np.nan,renumbering[i]])
             f.write("An error as occured with this sequence entry:{}  subject {} take {} with marker {}\n".format(i+1,global_df["subject"][i],global_df["number"][i],global_df["markersx"][i]))
-        print("finished with entry {}".format(i+1))
+        print("Main program : finished with entry {}".format(i+1))
     result_df = pd.DataFrame(data_list,columns=['subject','angle','number','memorization_task','success','quality_angle','quality_long','quality_ratio','renumber'])
     f.close()
     
@@ -128,8 +128,8 @@ warnings.simplefilter('ignore')
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")
-    plotter.sequence_quality_plotter(global_df)
+    #plotter.sequence_quality_plotter(global_df)
     plotter.memorization(global_df)
-    plotter.DTC_calculator(global_df)
+    #plotter.DTC_calculator(global_df)
 
 result_reader()

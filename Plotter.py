@@ -105,44 +105,54 @@ def plotter(x,y,vx,vy,t,time_stamps,qualities,seq):
     
 def sequence_quality_plotter(df):
     
+    plt.figure()
     ax = sns.catplot(y="quality_long",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_long.png")
     plt.clf()
     
+    plt.figure()
     ax = sns.catplot(y="quality_angle",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_angle.png")
     plt.clf()
     
+    plt.figure()
     ax = sns.catplot(y="quality_ratio",x="renumber",hue="memorization_task",data=df,col="subject",row="angle",kind="box",palette="Set3")
     plt.savefig("Images/General_qualities_ratio.png")
     plt.clf()
     
+    plt.figure()
     ax=sns.catplot(x="renumber",y="quality_ratio",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_ratio.png")
     plt.clf()
     
+    plt.figure()
     ax=sns.catplot(x="renumber",y="quality_angle",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_angle.png")
     plt.clf()
     
+    plt.figure()
     ax=sns.catplot(x="renumber",y="quality_long",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
     plt.savefig("Images/Mean_qualities_long.png")
     plt.clf()
     
+    plt.figure()
     ax = sns.boxplot(x="angle",y="quality_ratio",hue="memorization_task",palette="Set3",data=df)
-    plt.savefig("Images/General_mean_qualities_ratio")
+    plt.savefig("Images/General_mean_qualities_ratio.png")
     plt.clf()
     
+    plt.figure()
     ax = sns.boxplot(x="angle",y="quality_angle",hue="memorization_task",palette="Set3",data=df)
-    plt.savefig("Images/General_mean_qualities_angle")
+    plt.savefig("Images/General_mean_qualities_angle.png")
     plt.clf()
     
+    plt.figure()
     ax = sns.boxplot(x="angle",y="quality_long",hue="memorization_task",palette="Set3",data=df)
-    plt.savefig("Images/General_mean_qualities_long")
+    plt.savefig("Images/General_mean_qualities_long.png")
     plt.clf()
     
 def memorization(df):
     data = df[(df["memorization_task"] == True) &(df["success"]==True)]
+    plt.figure()
     axn = sns.countplot(x="angle",hue="subject",data=data,palette="Set3")
     plt.savefig("Images/memorization.png")
     plt.clf()
@@ -195,6 +205,7 @@ def DTC_calculator(df):
     
     dic = {'subject': [1,1,1,2,2,2,3,3,3,4,4],'angle':[0,90,180,0,90,180,0,90,180,0,180],'DTC':[S1_0_DTC,S1_90_DTC,S1_180_DTC,S2_0_DTC,S2_90_DTC,S2_180_DTC,S3_0_DTC,S3_90_DTC,S3_180_DTC,S4_0_DTC,S4_180_DTC]}
     frame = pd.DataFrame(data=dic)
+    plt.figure()
     ax = sns.barplot(x='subject',y='DTC',hue='angle',data=frame,palette="Set3")
     plt.savefig("Images\Dual_task_cost.png")
     plt.clf()

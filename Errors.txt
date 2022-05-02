@@ -1,5 +1,6 @@
 An error as occured with this sequence entry:6  subject S1 take 7 with marker Marker5_X
 An error as occured with this sequence entry:7  subject S1 take 8 with marker Marker6_X
+An error as occured with this sequence entry:48  subject S2 take 18 with marker Marker5_X
 An error as occured with this sequence entry:51  subject S2 take 22 with marker Marker5_X
 An error as occured with this sequence entry:52  subject S2 take 23 with marker Marker5_X
 An error as occured with this sequence entry:72  subject S3 take 12 with marker Marker1_X
