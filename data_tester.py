@@ -65,7 +65,7 @@ def position_speed_plotter(x,xnew,y,ynew,vx,vxnew,vy,vynew,t,seq,i):
     figs[0].subplots_adjust(hspace=0,wspace=0.5,left=0.05,right=0.95)
 
     ax_traj = figs[1].add_subplot(gsB[:,0:2])
-    ax_squares = figs[1].add_subplot(gsB[:,2:4],sharex=ax_traj,sharey=ax_traj)
+    ax_squares = figs[1].add_subplot(gsB[:,2:4])
     figs[1].subplots_adjust(wspace=0.5,left=0.06,right=0.95)
 
 
@@ -149,4 +149,4 @@ def main():
     
 warnings.simplefilter('ignore')
 M.add_column_markers()
-#main()
+main()
