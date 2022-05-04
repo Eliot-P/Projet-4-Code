@@ -136,6 +136,21 @@ def sequence_quality_plotter(df):
     plt.clf()
     
     plt.figure()
+    ax=sns.catplot(x="subject",y="quality_ratio",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    plt.savefig("Images/Subject_qualities_ratio.png")
+    plt.clf()
+    
+    plt.figure()
+    ax=sns.catplot(x="subject",y="quality_angle",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    plt.savefig("Images/Subject_qualities_angle.png")
+    plt.clf()
+    
+    plt.figure()
+    ax=sns.catplot(x="subject",y="quality_long",hue="memorization_task",data=df,col="angle",palette="Set3",kind="box")
+    plt.savefig("Images/Subject_qualities_long.png")
+    plt.clf()
+    
+    plt.figure()
     ax = sns.boxplot(x="angle",y="quality_ratio",hue="memorization_task",palette="Set3",data=df)
     plt.savefig("Images/General_mean_qualities_ratio.png")
     plt.clf()

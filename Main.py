@@ -1,11 +1,7 @@
-from matplotlib import gridspec
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 import warnings
 
-import Code.coda_toolbox as coda
-import Code.signal_processing_toolbox as sp
 
 import Plotter as plotter
 import Data_extraction as D_E
@@ -124,12 +120,12 @@ def main():
     
     
 warnings.simplefilter('ignore')
-#main()
+main()
 
 def result_reader():
     global_df = pd.read_csv("result_processed.csv")
-    #plotter.sequence_quality_plotter(global_df)
+    plotter.sequence_quality_plotter(global_df)
     plotter.memorization(global_df)
-    #plotter.DTC_calculator(global_df)
+    plotter.DTC_calculator(global_df)
 
 result_reader()

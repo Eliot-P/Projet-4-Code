@@ -1,4 +1,3 @@
-import Code.coda_toolbox as coda
 import Code.signal_processing_toolbox as sp
 import matplotlib.pyplot as plt
 from matplotlib import gridspec

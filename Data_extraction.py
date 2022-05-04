@@ -1,8 +1,5 @@
-from matplotlib import gridspec
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
-import warnings
 
 import Code.coda_toolbox as coda
 import Code.signal_processing_toolbox as sp
